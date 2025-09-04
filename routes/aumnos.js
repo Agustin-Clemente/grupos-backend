@@ -14,14 +14,14 @@ const client = new MongoClient(MONGODB_URI, {
     },
 });
 
-  router.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
-    const alumnos = await Alumnos.find();
-    res.json(alumnos);
+        const alumnos = await Alumnos.find().sort({ grupo: 1, nombre: 1 });
+        res.json(alumnos);
     } catch (error) {
-    res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
- });
+});
 
 
 router.put('/:id', async (req, res) => {
