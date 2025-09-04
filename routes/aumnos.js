@@ -16,8 +16,17 @@ const client = new MongoClient(MONGODB_URI, {
 
 router.get('/', async (req, res) => {
     try {
-        const alumnos = await Alumnos.find().sort({ grupo: 1, nombre: 1 });
-        res.json(alumnos);
+        const alumnos = await Alumnos.find({
+            Estado: { $in: ['OK', 'No asistire'] }
+        }).sort({ grupo: 1, nombre: 1 });
+
+        const otros = await Alumnos.find({
+            Estado: 'Quiero cambiar'
+        });
+
+        const resultadoFinal = [...alumnos, ...otros];
+
+        res.json(resultadoFinal);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
