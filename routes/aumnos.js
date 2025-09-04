@@ -4,7 +4,6 @@ import { MongoClient, ServerApiVersion } from 'mongodb';
 import 'dotenv/config';
 import Alumnos from '../models/alumnos.js';
 
-// Variables de entorno
 const MONGODB_URI = process.env.MONGODB_URI;
 const client = new MongoClient(MONGODB_URI, {
     serverApi: {
@@ -47,7 +46,7 @@ router.put('/:id', async (req, res) => {
         const alumnoActualizado = await Alumnos.findByIdAndUpdate(
             req.params.id,
             req.body,
-            { new: true }
+            { new: true, runValidators: true }
         );
         if (!alumnoActualizado) {
             return res.status(404).json({ message: 'Alumno no encontrado' });
