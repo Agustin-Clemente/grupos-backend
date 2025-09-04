@@ -40,4 +40,14 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+router.post('/', async (req, res) => {
+    try {
+        const nuevoAlumno = new Alumnos(req.body);
+        await nuevoAlumno.save();
+        res.status(201).json(nuevoAlumno);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
 export default router;
