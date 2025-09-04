@@ -17,11 +17,11 @@ const client = new MongoClient(MONGODB_URI, {
 router.get('/', async (req, res) => {
     try {
         const alumnos = await Alumnos.find({
-            Estado: { $in: ['OK', 'No asistire'] }
+            estado: { $in: ['OK', 'No asistire'] }
         }).sort({ grupo: 1, nombre: 1 });
 
         const otros = await Alumnos.find({
-            Estado: 'Quiero cambiar'
+            estado: 'Quiero cambiar'
         });
 
         const resultadoFinal = [...alumnos, ...otros];
