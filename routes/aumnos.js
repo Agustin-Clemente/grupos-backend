@@ -20,9 +20,9 @@ router.get('/', async (req, res) => {
             estado: { $in: ['OK', 'No asistiré'] }
         }).sort({ grupo: 1, nombre: 1 });
 
-        const otros = await Alumnos.find({
+         const otros = await Alumnos.find({
             estado: 'Quiero cambiar'
-        });
+        }).sort({ fechaCambio: 1 });
 
         const resultadoFinal = [...alumnos, ...otros];
 
@@ -35,6 +35,15 @@ router.get('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
+        const { estado } = req.body;
+        let updateData = { ...req.body };
+
+        if (estado === 'Quiero cambiar') {
+            updateData.fechaCambio = new Date();
+        } else {
+            updateData.fechaCambio = null;
+        }
+
         const alumnoActualizado = await Alumnos.findByIdAndUpdate(
             req.params.id,
             req.body,
