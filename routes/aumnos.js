@@ -45,7 +45,7 @@ router.put('/:id', async (req, res) => {
 
         const alumnoActualizado = await Alumnos.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            updateData,
             { new: true, runValidators: true }
         );
         if (!alumnoActualizado) {
