@@ -49,11 +49,23 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+/* router.post('/', async (req, res) => {
     try {
         const nuevoAlumno = new Alumnos(req.body);
         await nuevoAlumno.save();
         res.status(201).json(nuevoAlumno);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}); */
+
+router.post('/', async (req, res) => {
+    try {
+        const nuevosAlumnos = req.body; 
+
+        const result = await Alumnos.insertMany(nuevosAlumnos);
+        
+        res.status(201).json(result);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
